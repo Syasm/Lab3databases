@@ -52,6 +52,26 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.insert(TABLE_NAME, null, values);
         db.close();
     }
+    public Product findProduct(String productname){
+        SQLiteDatabases db = this.getWritableDatabase();
+        //run a query
+        String query = "SELECT * FROM " + TABLE_PRODUCTS + " WHERE " + COLUMN_PRODUCTNAME + ' = \ "' + productname + '\"' ;
+        Cursor cursor = db.rawQuery(query, null);
+        
+        //create object and get result
+        Product product = new Product();
+        if(cursor.moveToFirst()){
+            product.setID(Integer.parseInt(cursor.getString(0)));
+            product.setProductionName(cursor.getString(1));
+            product.setPrice(Double.parse.parseDouble(cursor.getString(2)));
+            cursor.close();
+        }else{
+            product = null;
+        }
+        db.close();
+        return product;
+        
+    }
 
     // I made 3 functions to interface with
     // for when searching name
